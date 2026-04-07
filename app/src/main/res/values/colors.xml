@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_primary">#6C63FF</color>
+    <color name="bg_dark">#1A1A2E</color>
+    <color name="card_dark">#252540</color>
+    <color name="text_muted">#6B6B9A</color>
+</resources>
