@@ -1,5 +1,4 @@
-// app/src/main/java/com/taskmaster/ui/TaskAdapter.kt
-package com.taskmaster.ui
+package com.taskmaster.ui.home
 
 import android.graphics.Paint
 import android.view.LayoutInflater

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.taskmaster.ui.auth.LoginFragment"
+        android:label="Login" >
+        <action android:id="@+id/action_login_to_register"
+            app:destination="@id/registerFragment"/>
+        <action android:id="@+id/action_login_to_forgot"
+            app:destination="@id/forgotPasswordFragment"/>
+        <action android:id="@+id/action_login_to_home"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.taskmaster.ui.auth.RegisterFragment"
+        android:label="Registro" >
+        <action android:id="@+id/action_register_to_personalInfo"
+            app:destination="@id/personalInfoFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="com.taskmaster.ui.auth.ForgotPasswordFragment"
+        android:label="Recuperar contraseña" />
+
+    <fragment
+        android:id="@+id/personalInfoFragment"
+        android:name="com.taskmaster.ui.auth.PersonalInfoFragment"
+        android:label="Información personal" >
+        <action android:id="@+id/action_personalInfo_to_home"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.taskmaster.ui.home.HomeFragment"
+        android:label="TaskMaster" />
+
+</navigation>
