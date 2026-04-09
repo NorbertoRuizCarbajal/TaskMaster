@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.taskmaster.ui.auth.LoginFragment"
-        android:label="Login" >
+        android:label="Login">
         <action android:id="@+id/action_login_to_register"
             app:destination="@id/registerFragment"/>
         <action android:id="@+id/action_login_to_forgot"
@@ -21,7 +21,7 @@
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.taskmaster.ui.auth.RegisterFragment"
-        android:label="Registro" >
+        android:label="Registro">
         <action android:id="@+id/action_register_to_personalInfo"
             app:destination="@id/personalInfoFragment"/>
     </fragment>
@@ -29,12 +29,12 @@
     <fragment
         android:id="@+id/forgotPasswordFragment"
         android:name="com.taskmaster.ui.auth.ForgotPasswordFragment"
-        android:label="Recuperar contraseña" />
+        android:label="Recuperar contraseña"/>
 
     <fragment
         android:id="@+id/personalInfoFragment"
         android:name="com.taskmaster.ui.auth.PersonalInfoFragment"
-        android:label="Información personal" >
+        android:label="Información personal">
         <action android:id="@+id/action_personalInfo_to_home"
             app:destination="@id/homeFragment"
             app:popUpTo="@id/loginFragment"
@@ -44,6 +44,21 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.taskmaster.ui.home.HomeFragment"
-        android:label="TaskMaster" />
+        android:label="Inicio"/>
+
+    <fragment
+        android:id="@+id/calendarFragment"
+        android:name="com.taskmaster.ui.calendar.CalendarFragment"
+        android:label="Calendario"/>
+
+    <fragment
+        android:id="@+id/statsFragment"
+        android:name="com.taskmaster.ui.stats.StatsFragment"
+        android:label="Estadísticas"/>
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.taskmaster.ui.profile.ProfileFragment"
+        android:label="Perfil"/>
 
 </navigation>
