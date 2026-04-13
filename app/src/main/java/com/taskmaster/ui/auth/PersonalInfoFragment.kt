@@ -37,20 +37,31 @@ class PersonalInfoFragment : Fragment() {
             val fecha = binding.etFecha.text.toString().trim()
             var valid = true
 
-            if (nombre.isBlank()) { binding.tilNombre.error = "Campo requerido"; valid = false }
-            else binding.tilNombre.error = null
+            if (nombre.isBlank()) {
+                binding.tilNombre.error = "Campo requerido"; valid = false
+            } else if (nombre.length < 2) {
+                binding.tilNombre.error = "Nombre muy corto"; valid = false
+            } else binding.tilNombre.error = null
 
-            if (apellidos.isBlank()) { binding.tilApellidos.error = "Campo requerido"; valid = false }
-            else binding.tilApellidos.error = null
+            if (apellidos.isBlank()) {
+                binding.tilApellidos.error = "Campo requerido"; valid = false
+            } else binding.tilApellidos.error = null
 
-            if (username.isBlank()) { binding.tilUsername.error = "Campo requerido"; valid = false }
-            else binding.tilUsername.error = null
+            if (username.isBlank()) {
+                binding.tilUsername.error = "Campo requerido"; valid = false
+            } else if (username.length < 3) {
+                binding.tilUsername.error = "Mínimo 3 caracteres"; valid = false
+            } else if (!username.matches(Regex("^[a-zA-Z0-9._]+$"))) {
+                binding.tilUsername.error = "Solo letras, números, puntos y guiones bajos"; valid = false
+            } else binding.tilUsername.error = null
 
-            if (telefono.isBlank()) { binding.tilTelefono.error = "Campo requerido"; valid = false }
-            else binding.tilTelefono.error = null
+            if (telefono.isBlank()) {
+                binding.tilTelefono.error = "Campo requerido"; valid = false
+            } else if (telefono.length < 10) {
+                binding.tilTelefono.error = "Teléfono inválido"; valid = false
+            } else binding.tilTelefono.error = null
 
             if (valid) {
-                // Guardar info personal
                 sessionManager.savePersonalInfo(nombre, apellidos, username, telefono, fecha)
                 findNavController().navigate(R.id.action_personalInfo_to_home)
             }
