@@ -21,18 +21,22 @@ class MainActivity : AppCompatActivity() {
 
         binding.bottomNavigation.setupWithNavController(navController)
 
+        // Si viene del Splash con sesión activa, ir directo a Home
+        if (intent.getStringExtra("destination") == "home") {
+            val navOptions = androidx.navigation.navOptions {
+                popUpTo(R.id.loginFragment) { inclusive = true }
+            }
+            navController.navigate(R.id.homeFragment, null, navOptions)
+        }
+
         // Ocultar bottom nav en pantallas de auth
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.loginFragment,
                 R.id.registerFragment,
                 R.id.forgotPasswordFragment,
-                R.id.personalInfoFragment -> {
-                    binding.bottomNavigation.visibility = View.GONE
-                }
-                else -> {
-                    binding.bottomNavigation.visibility = View.VISIBLE
-                }
+                R.id.personalInfoFragment -> binding.bottomNavigation.visibility = View.GONE
+                else -> binding.bottomNavigation.visibility = View.VISIBLE
             }
         }
     }

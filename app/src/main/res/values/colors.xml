@@ -4,4 +4,6 @@
     <color name="bg_dark">#1A1A2E</color>
     <color name="card_dark">#252540</color>
     <color name="text_muted">#6B6B9A</color>
+    <color name="swipe_delete_red">#C0392B</color>
+    <color name="snackbar_bg">#252540</color>
 </resources>

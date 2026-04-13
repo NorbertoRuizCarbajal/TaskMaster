@@ -30,6 +30,42 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"/>
 
+        <!-- Empty state -->
+        <LinearLayout
+            android:id="@+id/layout_empty"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/ic_splash_logo"
+                android:alpha="0.3"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:text="No tienes tareas aún"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:text="Toca el botón + para crear tu primera tarea"
+                android:textColor="#9E9EC8"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
@@ -37,6 +73,7 @@
             android:layout_weight="1"
             android:clipToPadding="false"
             android:paddingBottom="80dp"/>
+
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

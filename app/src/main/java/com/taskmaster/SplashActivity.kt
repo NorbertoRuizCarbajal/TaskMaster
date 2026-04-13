@@ -8,28 +8,25 @@ import com.taskmaster.databinding.ActivitySplashBinding
 
 class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        sessionManager = SessionManager(this)
         animateAndNavigate()
     }
 
     private fun animateAndNavigate() {
         val interpolator = AccelerateDecelerateInterpolator()
 
-        // Logo: escala + fade in
         binding.ivLogo.animate()
-            .alpha(1f)
-            .scaleX(1f)
-            .scaleY(1f)
+            .alpha(1f).scaleX(1f).scaleY(1f)
             .setDuration(600)
             .setInterpolator(interpolator)
             .start()
 
-        // Nombre: fade in con delay
         binding.tvName.animate()
             .alpha(1f)
             .setDuration(500)
@@ -37,18 +34,25 @@ class SplashActivity : AppCompatActivity() {
             .setInterpolator(interpolator)
             .start()
 
-        // Tagline: fade in con más delay
         binding.tvTagline.animate()
             .alpha(1f)
             .setDuration(500)
             .setStartDelay(700)
             .setInterpolator(interpolator)
             .withEndAction {
-                // Después de la animación, ir a MainActivity
-                startActivity(Intent(this, MainActivity::class.java))
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-                finish()
+                navigateNext()
             }
             .start()
+    }
+
+    private fun navigateNext() {
+        startActivity(Intent(this, MainActivity::class.java).apply {
+            // Si ya hay sesión, ir directo a Home
+            if (sessionManager.isLoggedIn()) {
+                putExtra("destination", "home")
+            }
+        })
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        finish()
     }
 }
