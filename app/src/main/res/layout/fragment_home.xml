@@ -12,25 +12,26 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- Empty state -->
+
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
             android:text="TaskMaster"
             android:textColor="#FFFFFF"
             android:textSize="28sp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_progress"
-            android:text="0 de 0 completadas"
-            android:textColor="#9E9EC8"
-            android:textSize="14sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp"
+            android:text="0 de 0 completadas"
+            android:textColor="#9E9EC8"
+            android:textSize="14sp" />
 
-        <!-- Empty state -->
         <LinearLayout
             android:id="@+id/layout_empty"
             android:layout_width="match_parent"

@@ -3,11 +3,13 @@ package com.taskmaster
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.taskmaster.core.FragmentCommunicator
 import com.taskmaster.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), FragmentCommunicator {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,7 +23,6 @@ class MainActivity : AppCompatActivity() {
 
         binding.bottomNavigation.setupWithNavController(navController)
 
-        // Si viene del Splash con sesión activa, ir directo a Home
         if (intent.getStringExtra("destination") == "home") {
             val navOptions = androidx.navigation.navOptions {
                 popUpTo(R.id.loginFragment) { inclusive = true }
@@ -29,7 +30,6 @@ class MainActivity : AppCompatActivity() {
             navController.navigate(R.id.homeFragment, null, navOptions)
         }
 
-        // Ocultar bottom nav en pantallas de auth
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.loginFragment,
@@ -38,6 +38,15 @@ class MainActivity : AppCompatActivity() {
                 R.id.personalInfoFragment -> binding.bottomNavigation.visibility = View.GONE
                 else -> binding.bottomNavigation.visibility = View.VISIBLE
             }
+        }
+    }
+
+    override fun manageLoader(isVisible: Boolean) {
+        binding.loaderContainer.isVisible = isVisible
+        if (isVisible) {
+            binding.loaderView.playAnimation()
+        } else {
+            binding.loaderView.cancelAnimation()
         }
     }
 }
