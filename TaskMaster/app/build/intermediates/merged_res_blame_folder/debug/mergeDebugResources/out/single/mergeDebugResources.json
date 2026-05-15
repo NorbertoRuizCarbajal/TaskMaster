@@ -1,0 +1,146 @@
+[
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\layout_activity_home.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\layout\\activity_home.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\drawable_ic_arrow_back.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\drawable\\ic_arrow_back.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\drawable_ic_delete.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\drawable\\ic_delete.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\drawable_ic_add.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\drawable\\ic_add.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\layout_dialog_add_task.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\layout\\dialog_add_task.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\drawable_ic_calendar.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\drawable\\ic_calendar.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\layout_item_calendar_day.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\layout\\item_calendar_day.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\xml_data_extraction_rules.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\xml\\data_extraction_rules.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\drawable_ic_home.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\drawable\\ic_home.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\layout_fragment_stats.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\layout\\fragment_stats.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\layout_fragment_home.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\layout\\fragment_home.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\layout_activity_splash.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\layout\\activity_splash.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\raw_loader.json.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\raw\\loader.json"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\layout_fragment_calendar.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\layout\\fragment_calendar.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\xml_backup_rules.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\xml\\backup_rules.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\layout_item_task.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\layout\\item_task.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\drawable_ic_profile.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\drawable\\ic_profile.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\layout_fragment_profile.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\layout\\fragment_profile.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\drawable_progress_bar_custom.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\drawable\\progress_bar_custom.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\layout_fragment_forgot_password.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\layout\\fragment_forgot_password.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\mipmap-anydpi-v26\\ic_launcher.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\layout_fragment_register.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\layout\\fragment_register.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\drawable_bg_day_selected.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\drawable\\bg_day_selected.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\layout_activity_main.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\drawable_bg_dot.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\drawable\\bg_dot.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\drawable_bg_avatar.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\drawable\\bg_avatar.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\menu_bottom_nav_menu.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\menu\\bottom_nav_menu.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\drawable_ic_launcher_background.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\drawable\\ic_launcher_background.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\drawable_ic_stats.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\drawable\\ic_stats.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\drawable_ic_arrow_forward.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\drawable\\ic_arrow_forward.xml"
+    },
+    {
+        "merged": "com.taskmaster.app-debug-67:/layout_fragment_calendar.xml.flat",
+        "source": "com.taskmaster.app-main-69:/layout/fragment_calendar.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\drawable_ic_launcher_foreground.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\drawable\\ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\drawable_nav_item_color.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\drawable\\nav_item_color.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\layout_fragment_personal_info.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\layout\\fragment_personal_info.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-debug-67:\\layout_fragment_login.xml.flat",
+        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\layout\\fragment_login.xml"
+    }
+]

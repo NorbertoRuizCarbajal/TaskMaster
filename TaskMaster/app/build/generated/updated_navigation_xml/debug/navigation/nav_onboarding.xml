@@ -1,0 +1,42 @@
+<navigation
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/nav_onboarding"
+app:startDestination="@id/loginFragment" >
+<fragment
+    android:id="@+id/loginFragment"
+    android:name="com.taskmaster.onboarding.signin.LoginFragment"
+    android:label="Login"
+    tools:layout="@layout/fragment_login" >
+
+    <action
+        android:id="@+id/action_loginFragment_to_registerFragment"
+        app:destination="@id/registerFragment" />
+    <action
+        android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
+        app:destination="@id/forgotPasswordFragment" />
+
+</fragment>
+<fragment
+    android:id="@+id/registerFragment"
+    android:name="com.taskmaster.onboarding.signup.RegisterFragment"
+    android:label="Registro"
+    tools:layout="@layout/fragment_register" >
+
+    <action
+        android:id="@+id/action_registerFragment_to_personalInfoFragment"
+        app:destination="@id/personalInfoFragment" />
+
+</fragment>
+<fragment
+    android:id="@+id/forgotPasswordFragment"
+    android:name="com.taskmaster.onboarding.signin.ForgotPasswordFragment"
+    android:label="Recuperar contraseña"
+    tools:layout="@layout/fragment_forgot_password" />
+<fragment
+    android:id="@+id/personalInfoFragment"
+    android:name="com.taskmaster.onboarding.personal.PersonalInfoFragment"
+    android:label="Información personal"
+    tools:layout="@layout/fragment_personal_info" />
+</navigation>

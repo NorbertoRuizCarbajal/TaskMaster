@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1A1A2E">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:text="Tu información"
+            android:textColor="#FFFFFF"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintBottom_toTopOf="@id/firstNameTil"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/firstNameTil"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Nombre"
+            app:boxStrokeColor="#6C63FF"
+            app:hintTextColor="#9E9EC8"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@id/lastNameTil">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/firstNameTiet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:textColor="#FFFFFF"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/lastNameTil"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Apellidos"
+            app:boxStrokeColor="#6C63FF"
+            app:hintTextColor="#9E9EC8"
+            app:layout_constraintTop_toBottomOf="@id/firstNameTil"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@id/usernameTil">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/lastNameTiet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:textColor="#FFFFFF"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/usernameTil"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Nombre de usuario"
+            app:boxStrokeColor="#6C63FF"
+            app:hintTextColor="#9E9EC8"
+            app:layout_constraintTop_toBottomOf="@id/lastNameTil"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@id/phoneTil">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/usernameTiet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textNoSuggestions"
+                android:textColor="#FFFFFF"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/phoneTil"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Teléfono"
+            app:boxStrokeColor="#6C63FF"
+            app:hintTextColor="#9E9EC8"
+            app:layout_constraintTop_toBottomOf="@id/usernameTil"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@id/birthDateTil">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/phoneTiet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:textColor="#FFFFFF"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/birthDateTil"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Fecha de nacimiento"
+            app:boxStrokeColor="#6C63FF"
+            app:hintTextColor="#9E9EC8"
+            app:layout_constraintTop_toBottomOf="@id/phoneTil"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintBottom_toTopOf="@id/saveButton">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/birthDateTiet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:inputType="none"
+                android:textColor="#FFFFFF"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/saveButton"
+            android:text="Comenzar"
+            android:textColor="#FFFFFF"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            app:backgroundTint="#6C63FF"
+            app:cornerRadius="16dp"
+            app:layout_constraintTop_toBottomOf="@id/birthDateTil"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="24dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

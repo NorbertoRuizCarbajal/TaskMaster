@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.taskmaster.app-mergeDebugResources-65:/values-h550dp-port-v13/values-h550dp-port-v13.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Nor\\.gradle\\caches\\9.0.0\\transforms\\72685dd20369e1bdb3a7c80b024f569a\\transformed\\material-1.12.0\\res\\values-h550dp-port-v13\\values-h550dp-port-v13.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "64",
+                        "endOffsets": "115"
+                    }
+                }
+            ]
+        }
+    ]
+}
