@@ -1,19 +1,24 @@
 package com.taskmaster.core.task
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
-
+import kotlinx.coroutines.flow.Flow
 @Dao
 interface TaskDao {
 
-    @Query("SELECT * FROM tasks ORDER BY isDone ASC, createdAt DESC")
-    fun getAllTasks(): LiveData<List<Task>>
+    @Query("SELECT * FROM tasks ORDER BY isDone ASC, priority DESC, createdAt DESC")
+    fun getAllTasks(): Flow<List<Task>>
+
+    @Query("SELECT * FROM tasks WHERE category = :category ORDER BY isDone ASC")
+    fun getTasksByCategory(category: String): Flow<List<Task>>
+
+    @Query("SELECT * FROM tasks WHERE dueDate = :date AND isDone = 0")
+    suspend fun getPendingTasksForDate(date: String): List<Task>
 
     @Query("SELECT COUNT(*) FROM tasks")
-    fun getTotal(): LiveData<Int>
+    fun getTotal(): Flow<Int>
 
     @Query("SELECT COUNT(*) FROM tasks WHERE isDone = 1")
-    fun getTotalCompleted(): LiveData<Int>
+    fun getTotalCompleted(): Flow<Int>
 
     @Query("""
         SELECT category,
@@ -21,7 +26,7 @@ interface TaskDao {
         SUM(CASE WHEN isDone = 1 THEN 1 ELSE 0 END) as completed
         FROM tasks GROUP BY category
     """)
-    fun getStatsByCategory(): LiveData<List<TaskCategoryStat>>
+    fun getStatsByCategory(): Flow<List<TaskCategoryStat>>
 
     @Query("""
         SELECT dueDate,
@@ -29,14 +34,18 @@ interface TaskDao {
         SUM(CASE WHEN isDone = 1 THEN 1 ELSE 0 END) as completed
         FROM tasks GROUP BY dueDate
     """)
-    fun getStatsByDate(): LiveData<List<TaskDateStat>>
+    fun getStatsByDate(): Flow<List<TaskDateStat>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(task: Task)
+    suspend fun insert(task: Task): Long
 
     @Update
     suspend fun update(task: Task)
 
     @Delete
     suspend fun delete(task: Task)
+
+
+    @Query("DELETE FROM tasks WHERE id = :id")
+    suspend fun deleteById(id: Int)
 }

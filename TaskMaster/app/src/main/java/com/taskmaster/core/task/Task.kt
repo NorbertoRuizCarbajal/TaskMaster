@@ -9,7 +9,8 @@ data class Task(
     val name: String,
     val category: String,
     val dueDate: String,
-    val priority: String,
+    val priority: String, // "alta" | "media" | "baja"
     val isDone: Boolean = false,
-    val createdAt: Long = System.currentTimeMillis()
+    val createdAt: Long = System.currentTimeMillis(),
+    val reminderId: String? = null
 )

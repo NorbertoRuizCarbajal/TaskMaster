@@ -1,6 +1,7 @@
 package com.taskmaster.home
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
@@ -10,6 +11,8 @@ import com.taskmaster.databinding.ActivityHomeBinding
 
 class HomeActivity : AppCompatActivity(), FragmentCommunicator {
     private lateinit var binding: ActivityHomeBinding
+
+    private val taskViewModel: TaskViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
