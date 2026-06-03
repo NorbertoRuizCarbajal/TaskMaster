@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.taskmaster.core.ResponseService
@@ -20,7 +22,10 @@ class ProfileFragment : Fragment() {
     private val binding get() = _binding!!
     private val userRepository = UserRepository()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -28,7 +33,6 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadProfile()
-
         binding.btnLogout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             val intent = Intent(requireContext(), MainActivity::class.java)
@@ -43,26 +47,28 @@ class ProfileFragment : Fragment() {
         binding.tvEmail.text = email
 
         viewLifecycleOwner.lifecycleScope.launch {
-            when (val result = userRepository.getUserInfo(uid)) {
-                is ResponseService.Success -> {
-                    val p = result.data
-                    val fullName = "${p.firstName} ${p.lastName}".trim()
-                    binding.tvName.text = fullName.ifBlank { "Usuario" }
-                    binding.tvUsername.text = "@${p.userName.ifBlank { "usuario" }}"
-                    binding.tvPhone.text = p.phone.ifBlank { "No registrado" }
-                    binding.tvBirthdate.text = p.birthDate.ifBlank { "No registrado" }
-                    val initials = fullName.split(" ")
-                        .filter { it.isNotBlank() }
-                        .take(2)
-                        .joinToString("") { it.first().uppercase() }
-                    binding.tvAvatar.text = initials.ifBlank { "U" }
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                when (val result = userRepository.getUserInfo(uid)) {
+                    is ResponseService.Success -> {
+                        val p = result.data
+                        val fullName = "${p.firstName} ${p.lastName}".trim()
+                        binding.tvName.text = fullName.ifBlank { "Usuario" }
+                        binding.tvUsername.text = "@${p.userName.ifBlank { "usuario" }}"
+                        binding.tvPhone.text = p.phone.ifBlank { "No registrado" }
+                        binding.tvBirthdate.text = p.birthDate.ifBlank { "No registrado" }
+                        val initials = fullName.split(" ")
+                            .filter { it.isNotBlank() }.take(2)
+                            .joinToString("") { it.first().uppercase() }
+                        binding.tvAvatar.text = initials.ifBlank { "U" }
+                    }
+                    is ResponseService.Error -> {
+                        binding.tvName.text = email.substringBefore("@")
+                        binding.tvAvatar.text = email.firstOrNull()?.uppercase() ?: "U"
+                        Snackbar.make(binding.root,
+                            "No se pudo cargar el perfil", Snackbar.LENGTH_SHORT).show()
+                    }
+                    else -> Unit
                 }
-                is ResponseService.Error -> {
-                    binding.tvName.text = email.substringBefore("@")
-                    binding.tvAvatar.text = email.firstOrNull()?.uppercase() ?: "U"
-                    Snackbar.make(binding.root, "No se pudo cargar el perfil", Snackbar.LENGTH_SHORT).show()
-                }
-                else -> Unit
             }
         }
     }

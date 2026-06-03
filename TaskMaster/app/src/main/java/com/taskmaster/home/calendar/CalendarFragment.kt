@@ -8,13 +8,18 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.taskmaster.R
 import com.taskmaster.core.task.Task
 import com.taskmaster.databinding.FragmentCalendarBinding
+import com.taskmaster.home.TaskUiState
 import com.taskmaster.home.TaskViewModel
 import com.taskmaster.home.tasks.TaskAdapter
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -22,19 +27,22 @@ import java.util.Locale
 class CalendarFragment : Fragment() {
     private var _binding: FragmentCalendarBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: TaskViewModel
+
+    private val viewModel: TaskViewModel by activityViewModels()
     private lateinit var taskAdapter: TaskAdapter
     private var selectedDate: LocalDate = LocalDate.now()
     private var allTasks: List<Task> = emptyList()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentCalendarBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[TaskViewModel::class.java]
         setupTaskList()
         setupCalendarGrid()
         observeTasks()
@@ -52,7 +60,6 @@ class CalendarFragment : Fragment() {
     private fun setupCalendarGrid() {
         updateMonthTitle()
         renderCalendar()
-
         binding.btnPrevMonth.setOnClickListener {
             selectedDate = selectedDate.minusMonths(1).withDayOfMonth(1)
             updateMonthTitle()
@@ -74,14 +81,10 @@ class CalendarFragment : Fragment() {
         binding.calendarGrid.removeAllViews()
         val firstDay = selectedDate.withDayOfMonth(1)
         val daysInMonth = selectedDate.lengthOfMonth()
-        val startDow = firstDay.dayOfWeek.value % 7 // domingo = 0
-
-        // Celdas vacías antes del día 1
-        repeat(startDow) {
-            binding.calendarGrid.addView(makeCell("", null))
-        }
-
+        val startDow = firstDay.dayOfWeek.value % 7
         val datesWithTasks = allTasks.map { it.dueDate }.toSet()
+
+        repeat(startDow) { binding.calendarGrid.addView(makeCell("", null)) }
 
         for (day in 1..daysInMonth) {
             val date = selectedDate.withDayOfMonth(day)
@@ -90,11 +93,14 @@ class CalendarFragment : Fragment() {
                     (date == LocalDate.now() && datesWithTasks.contains("Hoy"))
             binding.calendarGrid.addView(makeCell(day.toString(), date, hasTasks))
         }
-
         filterTasksByDate()
     }
 
-    private fun makeCell(label: String, date: LocalDate?, hasTasks: Boolean = false): View {
+    private fun makeCell(
+        label: String,
+        date: LocalDate?,
+        hasTasks: Boolean = false
+    ): View {
         val cell = LayoutInflater.from(requireContext())
             .inflate(R.layout.item_calendar_day, binding.calendarGrid, false)
         val tvDay = cell.findViewById<TextView>(R.id.tvDay)
@@ -124,9 +130,15 @@ class CalendarFragment : Fragment() {
     }
 
     private fun observeTasks() {
-        viewModel.allTasks.observe(viewLifecycleOwner) { tasks ->
-            allTasks = tasks
-            renderCalendar()
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { state ->
+                    if (state is TaskUiState.Success) {
+                        allTasks = state.tasks
+                        renderCalendar()
+                    }
+                }
+            }
         }
     }
 
@@ -138,8 +150,10 @@ class CalendarFragment : Fragment() {
         }
         taskAdapter.submitList(filtered)
         val fmt = DateTimeFormatter.ofPattern("d 'de' MMMM", Locale("es"))
-        binding.tvSelectedDate.text = if (selectedDate == LocalDate.now()) "Tareas de hoy"
-        else "Tareas del ${selectedDate.format(fmt)}"
+        binding.tvSelectedDate.text = if (selectedDate == LocalDate.now())
+            "Tareas de hoy"
+        else
+            "Tareas del ${selectedDate.format(fmt)}"
     }
 
     override fun onDestroyView() {

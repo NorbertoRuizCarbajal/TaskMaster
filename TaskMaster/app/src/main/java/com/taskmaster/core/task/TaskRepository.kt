@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.Flow
 class TaskRepository(private val dao: TaskDao) {
 
     val allTasks: Flow<List<Task>> = dao.getAllTasks()
+    val pendingTasks: Flow<List<Task>> = dao.getPendingTasks()
     val total: Flow<Int> = dao.getTotal()
     val totalCompleted: Flow<Int> = dao.getTotalCompleted()
     val statsByCategory: Flow<List<TaskCategoryStat>> = dao.getStatsByCategory()
@@ -16,7 +17,6 @@ class TaskRepository(private val dao: TaskDao) {
     suspend fun deleteById(id: Int) = dao.deleteById(id)
     suspend fun toggleDone(task: Task) = dao.update(task.copy(isDone = !task.isDone))
     suspend fun getPendingTasksForDate(date: String) = dao.getPendingTasksForDate(date)
-
     fun getTasksByCategory(category: String): Flow<List<Task>> =
         dao.getTasksByCategory(category)
 }

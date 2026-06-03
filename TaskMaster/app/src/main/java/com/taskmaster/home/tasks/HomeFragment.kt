@@ -30,6 +30,7 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
+    
     private val viewModel: TaskViewModel by activityViewModels()
     private lateinit var adapter: TaskAdapter
 
@@ -72,10 +73,14 @@ class HomeFragment : Fragment() {
                             adapter.submitList(tasks)
                             val done = tasks.count { it.isDone }
                             binding.tvProgress.text = "$done de ${tasks.size} completadas"
-                            binding.layoutEmpty.visibility =
-                                if (tasks.isEmpty()) View.VISIBLE else View.GONE
-                            binding.recyclerView.visibility =
-                                if (tasks.isEmpty()) View.GONE else View.VISIBLE
+                            binding.recyclerView.visibility = View.VISIBLE
+                            binding.layoutEmpty.visibility = View.GONE
+                        }
+                        is TaskUiState.Empty -> {
+                            adapter.submitList(emptyList())
+                            binding.tvProgress.text = "0 de 0 completadas"
+                            binding.recyclerView.visibility = View.GONE
+                            binding.layoutEmpty.visibility = View.VISIBLE
                         }
                         is TaskUiState.Error -> {
                             Snackbar.make(binding.root, state.message, Snackbar.LENGTH_LONG).show()
@@ -96,7 +101,8 @@ class HomeFragment : Fragment() {
                                 t: RecyclerView.ViewHolder) = false
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                // BUG CORREGIDO: adapterPosition puede ser -1 si la lista cambió durante el swipe
+                // BUG CORREGIDO: adapterPosition puede ser -1 si la lista cambió
+                // durante el gesto — sin este guard crashea con IndexOutOfBounds.
                 val position = viewHolder.adapterPosition
                 if (position == RecyclerView.NO_ID.toInt()) return
                 val task = adapter.currentList[position]
@@ -161,10 +167,10 @@ class HomeFragment : Fragment() {
                 }
 
                 if (name.isNotBlank()) {
-                    viewModel.insert(
-                        Task(name = name, category = cat,
-                            dueDate = date.ifBlank { "Hoy" }, priority = prio)
-                    )
+                    viewModel.insert(Task(
+                        name = name, category = cat,
+                        dueDate = date.ifBlank { "Hoy" }, priority = prio
+                    ))
                 }
             }
             .setNegativeButton("Cancelar", null)

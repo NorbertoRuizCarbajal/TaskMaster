@@ -11,10 +11,12 @@ import com.taskmaster.core.task.TaskRepository
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
+
 sealed class TaskUiState {
     data object Loading : TaskUiState()
     data class Success(val tasks: List<Task>) : TaskUiState()
     data class Error(val message: String) : TaskUiState()
+    data object Empty : TaskUiState()
 }
 
 class TaskViewModel(app: Application) : AndroidViewModel(app) {
@@ -23,10 +25,8 @@ class TaskViewModel(app: Application) : AndroidViewModel(app) {
         TaskDatabase.getDatabase(app).taskDao()
     )
 
-
     private val _uiState = MutableStateFlow<TaskUiState>(TaskUiState.Loading)
     val uiState: StateFlow<TaskUiState> = _uiState.asStateFlow()
-
 
     val total: StateFlow<Int> = repository.total
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), 0)
@@ -40,10 +40,6 @@ class TaskViewModel(app: Application) : AndroidViewModel(app) {
     val statsByDate: StateFlow<List<TaskDateStat>> = repository.statsByDate
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
-
-    private val _selectedCategory = MutableStateFlow<String?>(null)
-    val selectedCategory: StateFlow<String?> = _selectedCategory.asStateFlow()
-
     init {
 
         observeTasks()
@@ -53,27 +49,25 @@ class TaskViewModel(app: Application) : AndroidViewModel(app) {
         viewModelScope.launch {
             repository.allTasks
                 .catch { e ->
-                    // BUG CORREGIDO: antes los errores de Flow silenciosos crasheaban la app
+
                     _uiState.value = TaskUiState.Error(e.message ?: "Error desconocido")
                 }
                 .collect { tasks ->
-                    _uiState.value = TaskUiState.Success(tasks)
+                    _uiState.value = when {
+                        tasks.isEmpty() -> TaskUiState.Empty
+                        else -> TaskUiState.Success(tasks)
+                    }
                 }
         }
     }
 
-    fun setCategory(category: String?) {
-        _selectedCategory.value = category
-    }
 
     fun insert(task: Task) = viewModelScope.launch {
         try { repository.insert(task) }
-        catch (e: Exception) { /* loggear en producción */ }
+        catch (e: Exception) { _uiState.value = TaskUiState.Error("Error al guardar: ${e.message}") }
     }
 
     fun update(task: Task) = viewModelScope.launch { repository.update(task) }
-
     fun delete(task: Task) = viewModelScope.launch { repository.delete(task) }
-
     fun toggleDone(task: Task) = viewModelScope.launch { repository.toggleDone(task) }
 }
