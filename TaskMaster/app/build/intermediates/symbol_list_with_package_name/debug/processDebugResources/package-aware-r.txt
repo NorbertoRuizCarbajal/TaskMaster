@@ -1447,6 +1447,7 @@ color abc_tint_spinner
 color abc_tint_switch_track
 color accent_material_dark
 color accent_material_light
+color accent_purple
 color androidx_core_ripple_material_light
 color androidx_core_secondary_text_default_material_light
 color background_floating_material_dark
@@ -1454,6 +1455,7 @@ color background_floating_material_light
 color background_material_dark
 color background_material_light
 color bg_dark
+color black
 color bright_foreground_disabled_material_dark
 color bright_foreground_disabled_material_light
 color bright_foreground_inverse_material_dark
@@ -3316,6 +3318,7 @@ id action_bar_title
 id action_container
 id action_context_bar
 id action_divider
+id action_homeFragment_to_taskDetailFragment
 id action_image
 id action_loginFragment_to_forgotPasswordFragment
 id action_loginFragment_to_registerFragment
@@ -3372,10 +3375,14 @@ id browser_actions_menu_item_icon
 id browser_actions_menu_item_text
 id browser_actions_menu_items
 id browser_actions_menu_view
+id btnBack
+id btnCancelReminder
 id btnDelete
+id btnDeleteTask
 id btnLogout
 id btnNextMonth
 id btnPrevMonth
+id btnScheduleReminder
 id btnSend
 id buttonPanel
 id cache_measures
@@ -3383,6 +3390,7 @@ id calendarFragment
 id calendarGrid
 id callMeasure
 id cancel_button
+id cardDetails
 id cardInfo
 id carryVelocity
 id center
@@ -3394,6 +3402,7 @@ id chain
 id chain2
 id chains
 id checkbox
+id checkboxDone
 id checked
 id chipAlta
 id chipBaja
@@ -3546,6 +3555,7 @@ id lastNameTil
 id layout
 id layoutCategories
 id layoutEmpty
+id layoutReminderButtons
 id left
 id leftToRight
 id legacy
@@ -3792,6 +3802,7 @@ id tag_transition_group
 id tag_unhandled_key_event_manager
 id tag_unhandled_key_listeners
 id tag_window_insets_animation_callback
+id taskDetailFragment
 id text
 id text2
 id textEnd
@@ -3840,10 +3851,13 @@ id tvMonthYear
 id tvName
 id tvPhone
 id tvPriority
+id tvPriorityBadge
 id tvProductivityLabel
 id tvProductivityPct
 id tvProgress
+id tvReminderStatus
 id tvSelectedDate
+id tvStatus
 id tvSubtitle
 id tvTagline
 id tvTaskName
@@ -4024,6 +4038,7 @@ layout fragment_personal_info
 layout fragment_profile
 layout fragment_register
 layout fragment_stats
+layout fragment_task_detail
 layout ime_base_split_test_activity
 layout ime_secondary_split_test_activity
 layout item_calendar_day

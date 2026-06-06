@@ -8,7 +8,24 @@ app:startDestination="@id/homeFragment" >
     android:id="@+id/homeFragment"
     android:name="com.taskmaster.home.tasks.HomeFragment"
     android:label="Inicio"
-    tools:layout="@layout/fragment_home" />
+    tools:layout="@layout/fragment_home" >
+
+    <action
+        android:id="@+id/action_homeFragment_to_taskDetailFragment"
+        app:destination="@id/taskDetailFragment" />
+
+</fragment>
+<fragment
+    android:id="@+id/taskDetailFragment"
+    android:name="com.taskmaster.home.tasks.TaskDetailFragment"
+    android:label="Detalle de Tarea"
+    tools:layout="@layout/fragment_task_detail" >
+
+    <argument
+        android:name="task"
+        app:argType="com.taskmaster.core.task.Task" />
+
+</fragment>
 <fragment
     android:id="@+id/calendarFragment"
     android:name="com.taskmaster.home.calendar.CalendarFragment"

@@ -4,7 +4,7 @@
             "outputFile": "com.taskmaster.app-mergeDebugResources-68:/values-watch-v20/values-watch-v20.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Nor\\.gradle\\caches\\9.0.0\\transforms\\83e8a2a85faf78b5303a2949627b22a2\\transformed\\jetified-play-services-auth-20.7.0\\res\\values-watch-v20\\values.xml",
+                    "source": "C:\\Users\\Nor\\.gradle\\caches\\9.0.0\\transforms\\268d421f7321c487618c3817f64339cd\\transformed\\play-services-auth-20.7.0\\res\\values-watch-v20\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11",
                         "startColumns": "0,0,0,0,0,0,0,0",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Nor\\.gradle\\caches\\9.0.0\\transforms\\9518a844a8c242b7c4f3a8e9d8df40de\\transformed\\appcompat-1.7.0\\res\\values-watch-v20\\values-watch-v20.xml",
+                    "source": "C:\\Users\\Nor\\.gradle\\caches\\9.0.0\\transforms\\24f6887615de8808a071abc549d728cf\\transformed\\appcompat-1.7.0\\res\\values-watch-v20\\values-watch-v20.xml",
                     "from": {
                         "startLines": "2,5,8",
                         "startColumns": "4,4,4",

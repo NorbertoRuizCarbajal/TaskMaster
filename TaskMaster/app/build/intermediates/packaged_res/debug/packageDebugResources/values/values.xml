@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="accent_purple">#6C63FF</color>
     <color name="bg_dark">#1A1A2E</color>
+    <color name="black">#FF000000</color>
     <color name="card_border">#3D3A6B</color>
     <color name="card_dark">#252540</color>
     <color name="priority_high">#E53935</color>
@@ -9,10 +11,10 @@
     <color name="purple_light">#A78BFA</color>
     <color name="purple_primary">#6C63FF</color>
     <color name="purple_variant">#534AB7</color>
-    <color name="swipe_delete_red">#C0392B</color>
+    <color name="swipe_delete_red">#E53935</color>
     <color name="text_muted">#6B6B9A</color>
     <color name="text_secondary">#9E9EC8</color>
-    <color name="white">#FFFFFF</color>
+    <color name="white">#FFFFFFFF</color>
     <string name="app_name">TaskMaster</string>
     <string name="gcm_defaultSenderId" translatable="false">527624022950</string>
     <string name="google_api_key" translatable="false">AIzaSyBSYMuhrrwJOcWU5gxvEls3BEldI8-hrBo</string>

@@ -1,6 +1,8 @@
 R_DEF: Internal format may change without notice
 local
+color accent_purple
 color bg_dark
+color black
 color card_border
 color card_dark
 color priority_high
@@ -28,6 +30,7 @@ drawable ic_profile
 drawable ic_stats
 drawable nav_item_color
 drawable progress_bar_custom
+id action_homeFragment_to_taskDetailFragment
 id action_loginFragment_to_forgotPasswordFragment
 id action_loginFragment_to_registerFragment
 id action_registerFragment_to_personalInfoFragment
@@ -36,15 +39,21 @@ id barChart
 id birthDateTiet
 id birthDateTil
 id bottomNavigationView
+id btnBack
+id btnCancelReminder
 id btnDelete
+id btnDeleteTask
 id btnLogout
 id btnNextMonth
 id btnPrevMonth
+id btnScheduleReminder
 id btnSend
 id calendarFragment
 id calendarGrid
+id cardDetails
 id cardInfo
 id checkbox
+id checkboxDone
 id chipAlta
 id chipBaja
 id chipGroupCat
@@ -69,6 +78,7 @@ id lastNameTiet
 id lastNameTil
 id layoutCategories
 id layoutEmpty
+id layoutReminderButtons
 id loaderContainer
 id loaderLottie
 id loaderView
@@ -93,6 +103,7 @@ id saveButton
 id signInButton
 id splashLottie
 id statsFragment
+id taskDetailFragment
 id tvAppName
 id tvAvatar
 id tvBirthdate
@@ -106,10 +117,13 @@ id tvMonthYear
 id tvName
 id tvPhone
 id tvPriority
+id tvPriorityBadge
 id tvProductivityLabel
 id tvProductivityPct
 id tvProgress
+id tvReminderStatus
 id tvSelectedDate
+id tvStatus
 id tvSubtitle
 id tvTagline
 id tvTaskName
@@ -131,6 +145,7 @@ layout fragment_personal_info
 layout fragment_profile
 layout fragment_register
 layout fragment_stats
+layout fragment_task_detail
 layout item_calendar_day
 layout item_task
 menu bottom_nav_menu
