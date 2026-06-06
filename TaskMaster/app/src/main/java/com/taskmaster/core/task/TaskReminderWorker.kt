@@ -19,7 +19,12 @@ class TaskReminderWorker(
         const val KEY_TASK_NAME = "task_name"
         const val KEY_TASK_ID = "task_id"
 
-        fun scheduleReminder(context: Context, taskId: Int, taskName: String, delayMinutes: Long): String {
+        fun scheduleReminder(
+            context: Context,
+            taskId: Int,
+            taskName: String,
+            delayMinutes: Long
+        ): String {
             val workId = "reminder_$taskId"
             val data = workDataOf(
                 KEY_TASK_NAME to taskName,
@@ -30,10 +35,8 @@ class TaskReminderWorker(
                 .setInputData(data)
                 .addTag(workId)
                 .build()
-
             WorkManager.getInstance(context)
                 .enqueueUniqueWork(workId, ExistingWorkPolicy.REPLACE, request)
-
             return workId
         }
 
@@ -65,13 +68,12 @@ class TaskReminderWorker(
 
     private fun showNotification(taskName: String) {
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_home) // usar ícono de la app
+            .setSmallIcon(R.drawable.ic_home)
             .setContentTitle("¡Tarea pendiente!")
             .setContentText(taskName)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
             .build()
-
         val manager = context.getSystemService(NotificationManager::class.java)
         manager.notify(System.currentTimeMillis().toInt(), notification)
     }

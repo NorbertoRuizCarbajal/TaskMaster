@@ -11,14 +11,12 @@ import com.taskmaster.databinding.ActivityHomeBinding
 
 class HomeActivity : AppCompatActivity(), FragmentCommunicator {
     private lateinit var binding: ActivityHomeBinding
-
     private val taskViewModel: TaskViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setupNavigation()
     }
 
@@ -31,7 +29,7 @@ class HomeActivity : AppCompatActivity(), FragmentCommunicator {
 
     override fun manageLoader(isVisible: Boolean) {
         binding.loaderContainer.isVisible = isVisible
-        if (isVisible) binding.loaderLottie.playAnimation()
-        else binding.loaderLottie.cancelAnimation()
+        if (isVisible) binding.loaderLottie?.playAnimation()
+        else binding.loaderLottie?.cancelAnimation()
     }
 }

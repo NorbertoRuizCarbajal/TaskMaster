@@ -15,7 +15,8 @@ import com.taskmaster.core.task.Task
 
 class TaskAdapter(
     private val onToggle: (Task) -> Unit,
-    private val onDelete: (Task) -> Unit
+    private val onDelete: (Task) -> Unit,
+    private val onItemClick: (Task) -> Unit = {}
 ) : ListAdapter<Task, TaskAdapter.TaskViewHolder>(DiffCallback()) {
 
     inner class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -45,7 +46,7 @@ class TaskAdapter(
         else
             holder.tvName.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
 
-        val color = when (task.priority) {
+        val color = when (task.priority.lowercase()) {
             "alta"  -> 0xFFE53935.toInt()
             "media" -> 0xFFFB8C00.toInt()
             else    -> 0xFF43A047.toInt()
@@ -54,6 +55,7 @@ class TaskAdapter(
 
         holder.checkbox.setOnClickListener { onToggle(task) }
         holder.btnDelete.setOnClickListener { onDelete(task) }
+        holder.itemView.setOnClickListener { onItemClick(task) }
     }
 
     class DiffCallback : DiffUtil.ItemCallback<Task>() {

@@ -6,14 +6,20 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface TaskDao {
 
-    @Query("SELECT * FROM tasks ORDER BY isDone ASC, priority DESC, createdAt DESC")
+    @Query("SELECT * FROM tasks ORDER BY isDone ASC, priorityLevel DESC, createdAt DESC")
     fun getAllTasks(): Flow<List<Task>>
 
-    @Query("SELECT * FROM tasks WHERE isDone = 0 ORDER BY dueDate ASC")
+    @Query("SELECT * FROM tasks WHERE isDone = 0 ORDER BY dueDate ASC, priorityLevel DESC")
     fun getPendingTasks(): Flow<List<Task>>
 
-    @Query("SELECT * FROM tasks WHERE category = :category ORDER BY isDone ASC")
+    @Query("SELECT * FROM tasks WHERE category = :category ORDER BY isDone ASC, priorityLevel DESC")
     fun getTasksByCategory(category: String): Flow<List<Task>>
+
+    @Query("SELECT * FROM tasks WHERE name LIKE '%' || :query || '%' ORDER BY isDone ASC, priorityLevel DESC")
+    fun searchTasks(query: String): Flow<List<Task>>
+
+    @Query("SELECT * FROM tasks WHERE dueDate = :date ORDER BY isDone ASC, priorityLevel DESC")
+    fun getTasksByDate(date: String): Flow<List<Task>>
 
     @Query("SELECT COUNT(*) FROM tasks")
     fun getTotal(): Flow<Int>
@@ -37,9 +43,11 @@ interface TaskDao {
     """)
     fun getStatsByDate(): Flow<List<TaskDateStat>>
 
-    // NUEVO: buscar tareas pendientes de un día específico para WorkManager
     @Query("SELECT * FROM tasks WHERE dueDate = :date AND isDone = 0")
     suspend fun getPendingTasksForDate(date: String): List<Task>
+
+    @Query("SELECT * FROM tasks WHERE id = :id")
+    suspend fun getById(id: Int): Task?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(task: Task): Long
