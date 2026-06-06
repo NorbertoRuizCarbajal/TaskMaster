@@ -1,62 +1,58 @@
 [
     {
-        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-mergeDebugResources-66:\\layout\\fragment_register.xml",
-        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\layout\\fragment_register.xml"
+        "merged": "com.taskmaster.app-mergeDebugResources-69:/layout/fragment_forgot_password.xml",
+        "source": "com.taskmaster.app-main-72:/layout/fragment_forgot_password.xml"
     },
     {
-        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-mergeDebugResources-66:\\layout\\fragment_home.xml",
-        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\layout\\fragment_home.xml"
+        "merged": "com.taskmaster.app-mergeDebugResources-69:/layout/fragment_calendar.xml",
+        "source": "com.taskmaster.app-main-72:/layout/fragment_calendar.xml"
     },
     {
-        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-mergeDebugResources-66:\\layout\\dialog_add_task.xml",
-        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\layout\\dialog_add_task.xml"
+        "merged": "com.taskmaster.app-mergeDebugResources-69:/layout/item_task.xml",
+        "source": "com.taskmaster.app-main-72:/layout/item_task.xml"
     },
     {
-        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-mergeDebugResources-66:\\layout\\fragment_login.xml",
-        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\layout\\fragment_login.xml"
+        "merged": "com.taskmaster.app-mergeDebugResources-69:/layout/fragment_profile.xml",
+        "source": "com.taskmaster.app-main-72:/layout/fragment_profile.xml"
     },
     {
-        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-mergeDebugResources-66:\\layout\\fragment_personal_info.xml",
-        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\layout\\fragment_personal_info.xml"
+        "merged": "com.taskmaster.app-mergeDebugResources-69:/layout/fragment_personal_info.xml",
+        "source": "com.taskmaster.app-main-72:/layout/fragment_personal_info.xml"
     },
     {
-        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-mergeDebugResources-66:\\layout\\fragment_calendar.xml",
-        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\layout\\fragment_calendar.xml"
+        "merged": "com.taskmaster.app-mergeDebugResources-69:/layout/dialog_add_task.xml",
+        "source": "com.taskmaster.app-main-72:/layout/dialog_add_task.xml"
     },
     {
-        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-mergeDebugResources-66:\\layout\\item_calendar_day.xml",
-        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\layout\\item_calendar_day.xml"
+        "merged": "com.taskmaster.app-mergeDebugResources-69:/layout/activity_main.xml",
+        "source": "com.taskmaster.app-main-72:/layout/activity_main.xml"
     },
     {
-        "merged": "com.taskmaster.app-mergeDebugResources-66:/layout/fragment_calendar.xml",
-        "source": "com.taskmaster.app-main-69:/layout/fragment_calendar.xml"
+        "merged": "com.taskmaster.app-mergeDebugResources-69:/layout/fragment_stats.xml",
+        "source": "com.taskmaster.app-main-72:/layout/fragment_stats.xml"
     },
     {
-        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-mergeDebugResources-66:\\layout\\activity_home.xml",
-        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\layout\\activity_home.xml"
+        "merged": "com.taskmaster.app-mergeDebugResources-69:/layout/activity_splash.xml",
+        "source": "com.taskmaster.app-main-72:/layout/activity_splash.xml"
     },
     {
-        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-mergeDebugResources-66:\\layout\\fragment_profile.xml",
-        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\layout\\fragment_profile.xml"
+        "merged": "com.taskmaster.app-mergeDebugResources-69:/layout/item_calendar_day.xml",
+        "source": "com.taskmaster.app-main-72:/layout/item_calendar_day.xml"
     },
     {
-        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-mergeDebugResources-66:\\layout\\item_task.xml",
-        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\layout\\item_task.xml"
+        "merged": "com.taskmaster.app-mergeDebugResources-69:/layout/fragment_home.xml",
+        "source": "com.taskmaster.app-main-72:/layout/fragment_home.xml"
     },
     {
-        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-mergeDebugResources-66:\\layout\\fragment_forgot_password.xml",
-        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\layout\\fragment_forgot_password.xml"
+        "merged": "com.taskmaster.app-mergeDebugResources-69:/layout/fragment_login.xml",
+        "source": "com.taskmaster.app-main-72:/layout/fragment_login.xml"
     },
     {
-        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-mergeDebugResources-66:\\layout\\activity_splash.xml",
-        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\layout\\activity_splash.xml"
+        "merged": "com.taskmaster.app-mergeDebugResources-69:/layout/fragment_register.xml",
+        "source": "com.taskmaster.app-main-72:/layout/fragment_register.xml"
     },
     {
-        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-mergeDebugResources-66:\\layout\\activity_main.xml",
-        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\layout\\activity_main.xml"
-    },
-    {
-        "merged": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-mergeDebugResources-66:\\layout\\fragment_stats.xml",
-        "source": "C:\\Users\\Nor\\.gradle\\daemon\\9.0.0\\com.taskmaster.app-main-69:\\layout\\fragment_stats.xml"
+        "merged": "com.taskmaster.app-mergeDebugResources-69:/layout/activity_home.xml",
+        "source": "com.taskmaster.app-main-72:/layout/activity_home.xml"
     }
 ]

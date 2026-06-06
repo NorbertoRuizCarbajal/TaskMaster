@@ -14,8 +14,7 @@ class AuthRepository : Authentication {
     private val auth = FirebaseAuth.getInstance()
 
     override suspend fun requestLogin(
-        email: String,
-        password: String
+        email: String, password: String
     ): ResponseService<FirebaseUser> = withContext(Dispatchers.IO) {
         try {
             val result = auth.signInWithEmailAndPassword(email, password).await()
@@ -31,8 +30,7 @@ class AuthRepository : Authentication {
     }
 
     override suspend fun requestSignUp(
-        email: String,
-        password: String
+        email: String, password: String
     ): ResponseService<FirebaseUser> = withContext(Dispatchers.IO) {
         try {
             val result = auth.createUserWithEmailAndPassword(email, password).await()
