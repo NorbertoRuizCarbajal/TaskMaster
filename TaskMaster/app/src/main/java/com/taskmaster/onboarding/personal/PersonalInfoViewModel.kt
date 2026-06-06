@@ -52,11 +52,12 @@ class PersonalInfoViewModel : ViewModel() {
     fun isFormValid(
         firstName: String, lastName: String, username: String,
         phone: String, birthDate: String
-    ): Boolean = validateFirstName(firstName) == null &&
-            validateLastName(lastName) == null &&
-            validateUsername(username) == null &&
-            validatePhone(phone) == null &&
-            validateBirthDate(birthDate) == null
+    ): Boolean =
+        validateFirstName(firstName) == null &&
+                validateLastName(lastName) == null &&
+                validateUsername(username) == null &&
+                validatePhone(phone) == null &&
+                validateBirthDate(birthDate) == null
 
     fun saveProfile(
         uid: String, firstName: String, lastName: String,

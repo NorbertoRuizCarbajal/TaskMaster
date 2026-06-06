@@ -75,7 +75,9 @@ class RegisterFragment : Fragment() {
                         }
                         is ResponseService.Success -> {
                             communicator.manageLoader(false)
-                            findNavController().navigate(R.id.action_registerFragment_to_personalInfoFragment)
+                            findNavController().navigate(
+                                R.id.action_registerFragment_to_personalInfoFragment
+                            )
                         }
                         is ResponseService.Error -> {
                             communicator.manageLoader(false)

@@ -55,13 +55,11 @@ class PersonalInfoFragment : Fragment() {
         val username = binding.usernameTiet.text.toString().trim()
         val phone = binding.phoneTiet.text.toString().trim()
         val birthDate = binding.birthDateTiet.text.toString().trim()
-
         binding.firstNameTil.error = viewModel.validateFirstName(firstName)
         binding.lastNameTil.error = viewModel.validateLastName(lastName)
         binding.usernameTil.error = viewModel.validateUsername(username)
         binding.phoneTil.error = viewModel.validatePhone(phone)
         binding.birthDateTil.error = viewModel.validateBirthDate(birthDate)
-
         binding.saveButton.isEnabled =
             viewModel.isFormValid(firstName, lastName, username, phone, birthDate)
     }
@@ -72,7 +70,9 @@ class PersonalInfoFragment : Fragment() {
             DatePickerDialog(
                 requireContext(),
                 { _, year, month, day ->
-                    binding.birthDateTiet.setText("%04d-%02d-%02d".format(year, month + 1, day))
+                    binding.birthDateTiet.setText(
+                        "%04d-%02d-%02d".format(year, month + 1, day)
+                    )
                 },
                 cal.get(Calendar.YEAR) - 18,
                 cal.get(Calendar.MONTH),
@@ -113,7 +113,8 @@ class PersonalInfoFragment : Fragment() {
                         is ResponseService.Success -> {
                             communicator.manageLoader(false)
                             val intent = Intent(requireContext(), HomeActivity::class.java)
-                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            intent.flags =
+                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             startActivity(intent)
                         }
                         is ResponseService.Error -> {
