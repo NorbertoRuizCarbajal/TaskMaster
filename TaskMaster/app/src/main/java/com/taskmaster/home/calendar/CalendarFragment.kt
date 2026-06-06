@@ -1,6 +1,5 @@
 package com.taskmaster.home.calendar
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +20,7 @@ import com.taskmaster.home.TaskViewModel
 import com.taskmaster.home.tasks.TaskAdapter
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
@@ -30,8 +30,10 @@ class CalendarFragment : Fragment() {
 
     private val viewModel: TaskViewModel by activityViewModels()
     private lateinit var taskAdapter: TaskAdapter
-    private var selectedDate: LocalDate = LocalDate.now()
+    private var selectedDate: LocalDate = LocalDate.now(ZoneId.systemDefault())
     private var allTasks: List<Task> = emptyList()
+
+    private val ISO_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,7 +46,7 @@ class CalendarFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupTaskList()
-        setupCalendarGrid()
+        setupCalendarControls()
         observeTasks()
     }
 
@@ -57,9 +59,8 @@ class CalendarFragment : Fragment() {
         binding.rvDayTasks.adapter = taskAdapter
     }
 
-    private fun setupCalendarGrid() {
+    private fun setupCalendarControls() {
         updateMonthTitle()
-        renderCalendar()
         binding.btnPrevMonth.setOnClickListener {
             selectedDate = selectedDate.minusMonths(1).withDayOfMonth(1)
             updateMonthTitle()
@@ -74,86 +75,124 @@ class CalendarFragment : Fragment() {
 
     private fun updateMonthTitle() {
         val fmt = DateTimeFormatter.ofPattern("MMMM yyyy", Locale("es"))
-        binding.tvMonthYear.text = selectedDate.format(fmt).replaceFirstChar { it.uppercase() }
-    }
-
-    private fun renderCalendar() {
-        binding.calendarGrid.removeAllViews()
-        val firstDay = selectedDate.withDayOfMonth(1)
-        val daysInMonth = selectedDate.lengthOfMonth()
-        val startDow = firstDay.dayOfWeek.value % 7
-        val datesWithTasks = allTasks.map { it.dueDate }.toSet()
-
-        repeat(startDow) { binding.calendarGrid.addView(makeCell("", null)) }
-
-        for (day in 1..daysInMonth) {
-            val date = selectedDate.withDayOfMonth(day)
-            val dateStr = date.format(DateTimeFormatter.ofPattern("d/M/yyyy"))
-            val hasTasks = datesWithTasks.contains(dateStr) ||
-                    (date == LocalDate.now() && datesWithTasks.contains("Hoy"))
-            binding.calendarGrid.addView(makeCell(day.toString(), date, hasTasks))
-        }
-        filterTasksByDate()
-    }
-
-    private fun makeCell(
-        label: String,
-        date: LocalDate?,
-        hasTasks: Boolean = false
-    ): View {
-        val cell = LayoutInflater.from(requireContext())
-            .inflate(R.layout.item_calendar_day, binding.calendarGrid, false)
-        val tvDay = cell.findViewById<TextView>(R.id.tvDay)
-        val dot = cell.findViewById<View>(R.id.viewDot)
-        tvDay.text = label
-
-        when {
-            date == null -> tvDay.setTextColor(Color.TRANSPARENT)
-            date == LocalDate.now() -> tvDay.setTextColor(Color.parseColor("#6C63FF"))
-            else -> tvDay.setTextColor(Color.WHITE)
-        }
-
-        if (date != null && date == selectedDate) {
-            tvDay.setBackgroundResource(R.drawable.bg_day_selected)
-            tvDay.setTextColor(Color.WHITE)
-        }
-
-        dot.visibility = if (hasTasks) View.VISIBLE else View.INVISIBLE
-
-        if (date != null) {
-            cell.setOnClickListener {
-                selectedDate = date
-                renderCalendar()
-            }
-        }
-        return cell
+        binding.tvMonthYear.text =
+            selectedDate.format(fmt).replaceFirstChar { it.uppercase() }
     }
 
     private fun observeTasks() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
-                    if (state is TaskUiState.Success) {
-                        allTasks = state.tasks
-                        renderCalendar()
+                    allTasks = when (state) {
+                        is TaskUiState.Success -> state.tasks
+                        else -> emptyList()
                     }
+                    renderCalendar()
                 }
             }
         }
     }
 
-    private fun filterTasksByDate() {
-        val dateStr = selectedDate.format(DateTimeFormatter.ofPattern("d/M/yyyy"))
-        val filtered = allTasks.filter { task ->
-            task.dueDate == dateStr ||
-                    (selectedDate == LocalDate.now() && task.dueDate == "Hoy")
+    private fun renderCalendar() {
+        binding.calendarGrid.removeAllViews()
+        binding.calendarGrid.columnCount = 7
+
+        val firstDayOfMonth = selectedDate.withDayOfMonth(1)
+        val daysInMonth = selectedDate.lengthOfMonth()
+        val datesWithTasks = allTasks.map { it.dueDate }.toSet()
+
+        // MON=1..SUN=7 → DOM=0, LUN=1 .. SÁB=6
+        val startDow = firstDayOfMonth.dayOfWeek.value % 7
+
+        // 42 celdas fijas (6 filas × 7 columnas)
+        for (cellIndex in 0 until 42) {
+            val dayNumber = cellIndex - startDow + 1
+            if (dayNumber < 1 || dayNumber > daysInMonth) {
+                binding.calendarGrid.addView(makeEmptyCell())
+            } else {
+                val date = firstDayOfMonth.withDayOfMonth(dayNumber)
+                val dateStr = date.format(ISO_FORMAT)
+                binding.calendarGrid.addView(
+                    makeDayCell(
+                        label = dayNumber.toString(),
+                        date = date,
+                        hasTasks = datesWithTasks.contains(dateStr)
+                    )
+                )
+            }
         }
-        taskAdapter.submitList(filtered)
-        val fmt = DateTimeFormatter.ofPattern("d 'de' MMMM", Locale("es"))
-        binding.tvSelectedDate.text = if (selectedDate == LocalDate.now())
-            "Tareas de hoy"
+        updateDayTaskList()
+    }
+
+    private fun makeEmptyCell(): View {
+        val cell = LayoutInflater.from(requireContext())
+            .inflate(R.layout.item_calendar_day, binding.calendarGrid, false)
+        cell.visibility = View.INVISIBLE
+        cell.layoutParams = android.widget.GridLayout.LayoutParams().apply {
+            width = 0
+            height = android.widget.GridLayout.LayoutParams.WRAP_CONTENT
+            columnSpec = android.widget.GridLayout.spec(
+                android.widget.GridLayout.UNDEFINED, 1f
+            )
+        }
+        return cell
+    }
+
+    private fun makeDayCell(label: String, date: LocalDate, hasTasks: Boolean): View {
+        val cell = LayoutInflater.from(requireContext())
+            .inflate(R.layout.item_calendar_day, binding.calendarGrid, false)
+        val tvDay = cell.findViewById<TextView>(R.id.tvDay)
+        val dot = cell.findViewById<View>(R.id.viewDot)
+
+        tvDay.text = label
+
+        val today = LocalDate.now(ZoneId.systemDefault())
+        when {
+            date == today -> {
+                tvDay.setBackgroundResource(R.drawable.bg_day_selected)
+                tvDay.setTextColor(
+                    ContextCompat.getColor(requireContext(), android.R.color.white)
+                )
+            }
+            date == selectedDate && date != today -> {
+                tvDay.setTextColor(
+                    ContextCompat.getColor(requireContext(), R.color.accent_purple)
+                )
+            }
+            else -> {
+                tvDay.setTextColor(
+                    ContextCompat.getColor(requireContext(), android.R.color.white)
+                )
+            }
+        }
+
+        dot.visibility = if (hasTasks) View.VISIBLE else View.INVISIBLE
+
+        cell.layoutParams = android.widget.GridLayout.LayoutParams().apply {
+            width = 0
+            height = android.widget.GridLayout.LayoutParams.WRAP_CONTENT
+            columnSpec = android.widget.GridLayout.spec(
+                android.widget.GridLayout.UNDEFINED, 1f
+            )
+        }
+
+        cell.setOnClickListener {
+            selectedDate = date
+            renderCalendar()
+        }
+        return cell
+    }
+
+    private fun updateDayTaskList() {
+        val selectedDateStr = selectedDate.format(ISO_FORMAT)
+        val dayTasks = allTasks.filter { it.dueDate == selectedDateStr }
+        taskAdapter.submitList(dayTasks)
+
+        val fmt = DateTimeFormatter.ofPattern("d 'de' MMMM yyyy", Locale("es"))
+        binding.tvSelectedDate.text = if (dayTasks.isEmpty())
+            "Sin tareas el ${selectedDate.format(fmt)}"
         else
-            "Tareas del ${selectedDate.format(fmt)}"
+            "${dayTasks.size} tarea(s) — ${selectedDate.format(fmt)}"
     }
 
     override fun onDestroyView() {

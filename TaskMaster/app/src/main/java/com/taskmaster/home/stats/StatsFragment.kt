@@ -5,10 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -19,9 +15,9 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import com.taskmaster.R
 import com.taskmaster.databinding.FragmentStatsBinding
 import com.taskmaster.home.TaskViewModel
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 class StatsFragment : Fragment() {
@@ -51,7 +47,6 @@ class StatsFragment : Fragment() {
             setBackgroundColor(Color.TRANSPARENT)
             legend.isEnabled = false
             setTouchEnabled(false)
-            animateY(800)
             xAxis.apply {
                 position = XAxis.XAxisPosition.BOTTOM
                 textColor = Color.parseColor("#9E9EC8")
@@ -74,78 +69,50 @@ class StatsFragment : Fragment() {
     private fun observeStats() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
+
+                // combine evita división por cero al esperar ambos valores
                 launch {
-                    viewModel.total.collect { binding.tvTotal.text = it.toString() }
-                }
-                launch {
-                    viewModel.totalCompleted.collect { completed ->
-                        binding.tvCompleted.text = completed.toString()
-                        val total = viewModel.total.value
-                        val pct = if (total > 0) (completed * 100 / total) else 0
-                        binding.tvProductivityPct.text = "$pct%"
-                        binding.progressWeekly.progress = pct
-                        binding.tvProductivityLabel.text = when {
-                            pct >= 80 -> "¡Excelente productividad! 🎯"
-                            pct >= 50 -> "Buen ritmo, sigue así 💪"
-                            pct > 0   -> "de tus tareas están completadas"
-                            else      -> "Aún no has completado tareas"
+                    combine(
+                        viewModel.total,
+                        viewModel.totalCompleted
+                    ) { total, completed -> Pair(total, completed) }
+                        .collect { (total, completed) ->
+                            binding.tvTotal.text = total.toString()
+                            binding.tvCompleted.text = completed.toString()
+                            val pct = if (total > 0) (completed * 100 / total) else 0
+                            binding.tvProductivityPct.text = "$pct%"
+                            binding.progressWeekly.progress = pct
+                            binding.tvProductivityLabel.text = when {
+                                pct >= 80 -> "¡Excelente productividad! 🎯"
+                                pct >= 50 -> "Buen ritmo, sigue así 💪"
+                                pct > 0   -> "de tus tareas están completadas"
+                                else      -> "Aún no has completado tareas"
+                            }
                         }
-                    }
                 }
+
                 launch {
                     viewModel.statsByDate.collect { stats ->
-                        if (stats.isEmpty()) return@collect
+                        if (stats.isEmpty()) {
+                            binding.barChart.clear()
+                            binding.barChart.invalidate()
+                            return@collect
+                        }
                         val recent = stats.takeLast(7)
+                        val labels = recent.map { it.dueDate.takeLast(5) }
                         val entries = recent.mapIndexed { i, s ->
                             BarEntry(i.toFloat(), s.completed.toFloat())
                         }
-                        val labels = recent.map { it.dueDate }
-                        val dataSet = BarDataSet(entries, "").apply {
+                        val dataSet = BarDataSet(entries, "Completadas").apply {
                             color = Color.parseColor("#6C63FF")
                             valueTextColor = Color.parseColor("#9E9EC8")
                             valueTextSize = 10f
                         }
-                        binding.barChart.data = BarData(dataSet).apply { barWidth = 0.6f }
-                        binding.barChart.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
-                        binding.barChart.xAxis.labelCount = labels.size
-                        binding.barChart.invalidate()
-                    }
-                }
-                launch {
-                    viewModel.statsByCategory.collect { stats ->
-                        binding.layoutCategories.removeAllViews()
-                        stats.forEach { stat ->
-                            val container = LinearLayout(requireContext()).apply {
-                                orientation = LinearLayout.VERTICAL
-                                setPadding(0, 0, 0, 24)
-                            }
-                            val header = LinearLayout(requireContext()).apply {
-                                orientation = LinearLayout.HORIZONTAL
-                            }
-                            val tvCat = TextView(requireContext()).apply {
-                                text = stat.category; textSize = 13f
-                                setTextColor(Color.WHITE)
-                                layoutParams = LinearLayout.LayoutParams(
-                                    0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
-                            }
-                            val tvCount = TextView(requireContext()).apply {
-                                text = "${stat.completed}/${stat.total}"; textSize = 13f
-                                setTextColor(Color.parseColor("#9E9EC8"))
-                            }
-                            header.addView(tvCat); header.addView(tvCount)
-                            val bar = ProgressBar(
-                                requireContext(), null,
-                                android.R.attr.progressBarStyleHorizontal
-                            ).apply {
-                                max = stat.total; progress = stat.completed
-                                progressDrawable = ContextCompat.getDrawable(
-                                    requireContext(), R.drawable.progress_bar_custom)
-                                layoutParams = LinearLayout.LayoutParams(
-                                    LinearLayout.LayoutParams.MATCH_PARENT, 20
-                                ).apply { topMargin = 8 }
-                            }
-                            container.addView(header); container.addView(bar)
-                            binding.layoutCategories.addView(container)
+                        binding.barChart.apply {
+                            data = BarData(dataSet)
+                            xAxis.valueFormatter = IndexAxisValueFormatter(labels)
+                            animateY(600)
+                            invalidate()
                         }
                     }
                 }

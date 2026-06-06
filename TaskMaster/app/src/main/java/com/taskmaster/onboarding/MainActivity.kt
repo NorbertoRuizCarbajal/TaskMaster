@@ -17,7 +17,5 @@ class MainActivity : AppCompatActivity(), FragmentCommunicator {
 
     override fun manageLoader(isVisible: Boolean) {
         binding.loaderView.isVisible = isVisible
-        if (isVisible) binding.loaderLottie.playAnimation()
-        else binding.loaderLottie.cancelAnimation()
     }
 }

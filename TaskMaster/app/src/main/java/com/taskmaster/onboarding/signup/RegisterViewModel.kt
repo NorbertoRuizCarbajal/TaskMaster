@@ -27,7 +27,7 @@ class RegisterViewModel : ViewModel() {
         if (password.isBlank()) return "La contraseña es requerida"
         if (password.length < 8) return "Mínimo 8 caracteres"
         if (!password.any { it.isDigit() }) return "Debe incluir al menos un número"
-        if (!password.any { it.isUpperCase() }) return "Debe incluir una mayúscula"
+        if (!password.any { it.isUpperCase() }) return "Debe incluir al menos una mayúscula"
         return null
     }
 
@@ -39,8 +39,8 @@ class RegisterViewModel : ViewModel() {
 
     fun isRegisterFormValid(email: String, password: String, confirm: String): Boolean =
         validateEmail(email) == null &&
-        validatePassword(password) == null &&
-        validateConfirmPassword(password, confirm) == null
+                validatePassword(password) == null &&
+                validateConfirmPassword(password, confirm) == null
 
     fun requestSignUp(email: String, password: String) {
         viewModelScope.launch {

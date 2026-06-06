@@ -1,5 +1,6 @@
 package com.taskmaster.home.tasks
 
+import android.app.DatePickerDialog
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
@@ -13,24 +14,28 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.chip.ChipGroup
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.taskmaster.R
 import com.taskmaster.core.task.Task
+import com.taskmaster.databinding.DialogAddTaskBinding
 import com.taskmaster.databinding.FragmentHomeBinding
 import com.taskmaster.home.TaskUiState
 import com.taskmaster.home.TaskViewModel
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.Calendar
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    
     private val viewModel: TaskViewModel by activityViewModels()
     private lateinit var adapter: TaskAdapter
 
@@ -47,13 +52,15 @@ class HomeFragment : Fragment() {
         setupRecyclerView()
         setupSwipeToDelete()
         observeUiState()
+        observeNavigation()
         binding.fab.setOnClickListener { showAddTaskDialog() }
     }
 
     private fun setupRecyclerView() {
         adapter = TaskAdapter(
             onToggle = { viewModel.toggleDone(it) },
-            onDelete = { viewModel.delete(it) }
+            onDelete = { viewModel.delete(it) },
+            onItemClick = { viewModel.onTaskClicked(it) }
         )
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
@@ -91,89 +98,124 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun observeNavigation() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.navigateToDetail.collect { task ->
+                    val bundle = Bundle().apply { putParcelable("task", task) }
+                    findNavController().navigate(
+                        R.id.action_homeFragment_to_taskDetailFragment, bundle
+                    )
+                }
+            }
+        }
+    }
+
     private fun setupSwipeToDelete() {
         val deleteColor = ContextCompat.getColor(requireContext(), R.color.swipe_delete_red)
         val deleteIcon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_delete)
         val paint = Paint().apply { color = deleteColor }
 
         ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-            override fun onMove(rv: RecyclerView, vh: RecyclerView.ViewHolder,
-                                t: RecyclerView.ViewHolder) = false
+            override fun onMove(
+                rv: RecyclerView,
+                vh: RecyclerView.ViewHolder,
+                t: RecyclerView.ViewHolder
+            ) = false
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                // BUG CORREGIDO: adapterPosition puede ser -1 si la lista cambió
-                // durante el gesto — sin este guard crashea con IndexOutOfBounds.
-                val position = viewHolder.adapterPosition
+                val position = viewHolder.bindingAdapterPosition
                 if (position == RecyclerView.NO_ID.toInt()) return
                 val task = adapter.currentList[position]
                 viewModel.delete(task)
                 Snackbar.make(binding.root, "\"${task.name}\" eliminada", Snackbar.LENGTH_LONG)
-                    .setAction("Deshacer") { viewModel.insert(task) }
-                    .setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.card_dark))
-                    .setTextColor(ContextCompat.getColor(requireContext(), android.R.color.white))
-                    .setActionTextColor(ContextCompat.getColor(requireContext(), R.color.purple_primary))
-                    .show()
+                    .setAction("DESHACER") {
+                        viewModel.insert(task.copy(id = 0))
+                    }.show()
             }
 
             override fun onChildDraw(
-                canvas: Canvas, recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float,
-                actionState: Int, isCurrentlyActive: Boolean
+                c: Canvas, rv: RecyclerView, vh: RecyclerView.ViewHolder,
+                dX: Float, dY: Float, actionState: Int, isActive: Boolean
             ) {
-                val item = viewHolder.itemView
-                if (dX < 0) {
-                    val bg = RectF(item.right + dX, item.top + 4f,
-                        item.right.toFloat(), item.bottom - 4f)
-                    canvas.drawRoundRect(bg, 32f, 32f, paint)
+                if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+                    val itemView = vh.itemView
+                    val iconSize = (24 * resources.displayMetrics.density).toInt()
+                    c.drawRoundRect(
+                        RectF(
+                            itemView.right + dX, itemView.top.toFloat(),
+                            itemView.right.toFloat(), itemView.bottom.toFloat()
+                        ), 16f, 16f, paint
+                    )
                     deleteIcon?.let {
-                        val size = 48; val margin = 32
-                        val top = item.top + (item.height - size) / 2
-                        val left = item.right - margin - size
-                        if (item.right + dX < left.toFloat()) {
-                            it.setBounds(left, top, left + size, top + size)
-                            it.draw(canvas)
-                        }
+                        val iconTop = itemView.top + (itemView.height - iconSize) / 2
+                        val iconLeft = itemView.right - iconSize -
+                                (24 * resources.displayMetrics.density).toInt()
+                        it.setBounds(iconLeft, iconTop, iconLeft + iconSize, iconTop + iconSize)
+                        it.setTint(android.graphics.Color.WHITE)
+                        it.draw(c)
                     }
                 }
-                super.onChildDraw(canvas, recyclerView, viewHolder,
-                    dX, dY, actionState, isCurrentlyActive)
+                super.onChildDraw(c, rv, vh, dX, dY, actionState, isActive)
             }
-
-            override fun getSwipeThreshold(viewHolder: RecyclerView.ViewHolder) = 0.4f
         }).attachToRecyclerView(binding.recyclerView)
     }
 
     private fun showAddTaskDialog() {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_add_task, null)
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Nueva tarea")
-            .setView(dialogView)
-            .setPositiveButton("Agregar") { _, _ ->
-                val name = dialogView.findViewById<com.google.android.material.textfield.TextInputEditText>(
-                    R.id.etName).text.toString().trim()
-                val date = dialogView.findViewById<com.google.android.material.textfield.TextInputEditText>(
-                    R.id.etDate).text.toString().trim()
-                val catGroup = dialogView.findViewById<ChipGroup>(R.id.chipGroupCat)
-                val prioGroup = dialogView.findViewById<ChipGroup>(R.id.chipGroupPrio)
-                val cat = when (catGroup.checkedChipId) {
-                    R.id.chipPersonal -> "Personal"
-                    R.id.chipSalud   -> "Salud"
-                    else             -> "Trabajo"
-                }
-                val prio = when (prioGroup.checkedChipId) {
-                    R.id.chipAlta -> "alta"
-                    R.id.chipBaja -> "baja"
-                    else          -> "media"
-                }
+        val dialogBinding = DialogAddTaskBinding.inflate(layoutInflater)
 
-                if (name.isNotBlank()) {
-                    viewModel.insert(Task(
-                        name = name, category = cat,
-                        dueDate = date.ifBlank { "Hoy" }, priority = prio
-                    ))
-                }
-            }
+        dialogBinding.etDate.setOnClickListener {
+            val cal = Calendar.getInstance()
+            DatePickerDialog(
+                requireContext(),
+                { _, year, month, day ->
+                    dialogBinding.etDate.setText(
+                        "%04d-%02d-%02d".format(year, month + 1, day)
+                    )
+                },
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH)
+            ).show()
+        }
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Nueva Tarea")
+            .setView(dialogBinding.root)
             .setNegativeButton("Cancelar", null)
+            .setPositiveButton("Guardar") { _, _ ->
+                val name = dialogBinding.etName.text.toString().trim()
+                if (name.isBlank()) {
+                    Snackbar.make(
+                        binding.root, "El nombre es requerido", Snackbar.LENGTH_SHORT
+                    ).show()
+                    return@setPositiveButton
+                }
+                val category = when (dialogBinding.chipGroupCat.checkedChipId) {
+                    dialogBinding.chipTrabajo.id  -> "Trabajo"
+                    dialogBinding.chipPersonal.id -> "Personal"
+                    dialogBinding.chipSalud.id    -> "Salud"
+                    else -> "General"
+                }
+                val priority = when (dialogBinding.chipGroupPrio.checkedChipId) {
+                    dialogBinding.chipAlta.id  -> "alta"
+                    dialogBinding.chipMedia.id -> "media"
+                    else -> "baja"
+                }
+                val dueDate = dialogBinding.etDate.text.toString().trim().ifBlank {
+                    LocalDate.now(ZoneId.systemDefault())
+                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                }
+                val task = Task(
+                    name = name,
+                    category = category,
+                    dueDate = dueDate,
+                    priority = priority,
+                    priorityLevel = Task.priorityToLevel(priority)
+                )
+                viewModel.insert(task)
+                viewModel.scheduleReminder(task, delayMinutes = 60)
+            }
             .show()
     }
 

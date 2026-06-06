@@ -4,27 +4,28 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.airbnb.lottie.LottieAnimationView
 import com.google.firebase.auth.FirebaseAuth
 import com.taskmaster.R
 import com.taskmaster.home.HomeActivity
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class SplashActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-
         val lottie = findViewById<LottieAnimationView>(R.id.splashLottie)
-        val interpolator = AccelerateDecelerateInterpolator()
-
         lottie.animate()
             .alpha(1f).scaleX(1f).scaleY(1f)
             .setDuration(700)
-            .setInterpolator(interpolator)
-            .withEndAction {
-                lottie.postDelayed({ navigateNext() }, 2000)
-            }.start()
+            .setInterpolator(AccelerateDecelerateInterpolator())
+            .start()
+        lifecycleScope.launch {
+            delay(2400L)
+            navigateNext()
+        }
     }
 
     private fun navigateNext() {

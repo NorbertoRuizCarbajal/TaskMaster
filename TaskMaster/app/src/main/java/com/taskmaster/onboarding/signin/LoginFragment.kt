@@ -78,7 +78,8 @@ class LoginFragment : Fragment() {
                         is ResponseService.Success -> {
                             communicator.manageLoader(false)
                             val intent = Intent(requireContext(), HomeActivity::class.java)
-                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            intent.flags =
+                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             startActivity(intent)
                         }
                         is ResponseService.Error -> {
